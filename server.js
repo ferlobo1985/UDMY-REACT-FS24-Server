@@ -11,10 +11,27 @@ app.get('/',(req,res)=>{
     `)
 });
 
-app.get('/api/user',(req,res)=>{
+app.get('/api/:user/:id',(req,res)=>{
+    let id = req.params.id;
+    let username = req.params.user;
+     res.send(`
+        <html>
+            <body>
+                <h1>THE USER ID IS ${id} AND THE USERNAME ${username}</h1>
+            </body>
+        </html>
+    `)
+});
+
+
+///  /car?brand=ford&year=2023
+app.get('/api/car',(req,res)=>{
+    let brand =  req.query.brand;
+    let year = req.query.year;
+
     res.send({
-        name:"Francis",
-        lastname:"Jones"
+        brand,
+        year
     })
 })
 
