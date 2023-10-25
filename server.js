@@ -2,6 +2,11 @@ const express = require('express');
 const app = express();
 
 app.use('/css',express.static( __dirname+ '/public/css'));
+app.use('/',(req,res,next)=>{
+    console.log('Somebody made a request for:' + req.url);
+    res.cookie('cookiename','cookievalue');
+    next();
+});
 
 
 app.get('/',(req,res)=>{
