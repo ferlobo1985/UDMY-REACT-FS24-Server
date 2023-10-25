@@ -1,7 +1,12 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+const fs = require('fs')
 
 app.use('/css',express.static( __dirname+ '/public/css'));
+// app.use(bodyParser.json());
+const jsonParser = bodyParser.json();
+const urlencodeParser = bodyParser.urlencoded({extended:false});
 app.use('/',(req,res,next)=>{
     console.log('Somebody made a request for:' + req.url);
     res.cookie('cookiename','cookievalue');
@@ -21,6 +26,35 @@ app.get('/',(req,res)=>{
         </html>
     `)
 });
+
+
+app.get('/user',(req,res)=>{
+    let HTML = fs.readFileSync(`${__dirname}/views/user.html`);
+    res.send(`${HTML}`)
+});
+
+app.get('/querystring',(req,res)=>{
+    let HTML = fs.readFileSync(`${__dirname}/views/querystring.html`);
+    res.send(`${HTML}`)
+});
+
+
+
+app.post('/api/adduser',jsonParser,(req,res)=>{
+    console.log(req.body);
+    res.sendStatus(200)
+});
+
+app.post('/api/queryadd',urlencodeParser,(req,res)=>{
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
+    console.log(firstname + ' ' + lastname )
+    res.sendStatus(200)
+});
+
+
+
+
 
 app.get('/api/:user/:id',(req,res)=>{
     let id = req.params.id;
